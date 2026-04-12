@@ -1,0 +1,24 @@
+import { Request, Response } from 'express';
+export declare function getBlocks(req: Request, res: Response): Promise<void>;
+export declare function createBlock(req: Request, res: Response): Promise<void>;
+export declare function getRooms(req: Request, res: Response): Promise<void>;
+export declare function createRoom(req: Request, res: Response): Promise<void>;
+export declare function getMyRoom(req: Request, res: Response): Promise<void>;
+export declare function allocateRoom(req: Request, res: Response): Promise<void>;
+export declare function vacateRoom(req: Request, res: Response): Promise<void>;
+export declare function getGatePasses(req: Request, res: Response): Promise<void>;
+export declare function applyGatePass(req: Request, res: Response): Promise<void>;
+export declare function updateGatePass(req: Request, res: Response): Promise<void>;
+export declare function getMessMenu(req: Request, res: Response): Promise<void>;
+export declare function updateMessMenu(req: Request, res: Response): Promise<void>;
+export declare function getComplaints(req: Request, res: Response): Promise<void>;
+export declare function fileComplaint(req: Request, res: Response): Promise<void>;
+export declare function updateComplaint(req: Request, res: Response): Promise<void>;
+export declare function getFees(req: Request, res: Response): Promise<void>;
+export declare function createFee(req: Request, res: Response): Promise<void>;
+export declare function markFeePaid(req: Request, res: Response): Promise<void>;
+export declare function getHostelStats(req: Request, res: Response): Promise<void>;
+export declare function searchStudents(req: Request, res: Response): Promise<void>;
+export declare function toggleWarden(req: Request, res: Response): Promise<void>;
+export declare function getAllAllocations(req: Request, res: Response): Promise<void>;
+//# sourceMappingURL=hostelController.d.ts.map

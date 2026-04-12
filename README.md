@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎓 Smart Campus — BBD University
 
 > **Your entire campus, one tap away.**  
@@ -423,3 +424,6 @@ All in `server/.env`:
 *Built with ❤️ for BBD University, Lucknow*
 
 </div>
+=======
+# SmartCampus
+>>>>>>> 2aaff41f050265447b8d9d368dfa19c2fa2a32f1

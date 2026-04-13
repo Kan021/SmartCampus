@@ -4,9 +4,8 @@
 "description": "Smart Campus System — Backend API",
 "main": "dist/index.js",
 "scripts": {
-"build": "tsc",
-"start": "node dist/index.js",
-"postinstall": "prisma generate"
+"build": "npx prisma generate && tsc",
+"start": "node dist/index.js"
 },
 "dependencies": {
 "@prisma/client": "^7.7.0",

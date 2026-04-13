@@ -23,7 +23,7 @@ import chatRoutes from './routes/chat.routes';
 
 const app = express();
 const PORT = parseInt(process.env.PORT || '5000');
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5174';
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 
 // ─── Security Middleware ─────────────────────────────────────────
 app.use(helmet({
@@ -124,13 +124,29 @@ app.get('/api/health', generalLimiter, (_req, res) => {
   });
 });
 
-// ─── 404 Handler ─────────────────────────────────────────────────
-app.use((_req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found',
+// ─── Serve React Frontend (production / packaged Electron) ─────
+if (process.env.NODE_ENV === 'production') {
+  // In packaged Electron, resources are at process.resourcesPath/client/dist
+  // In a plain Node.js production build, we look relative to __dirname
+  const clientDist = process.resourcesPath
+    ? path.join(process.resourcesPath, 'client', 'dist')
+    : path.join(__dirname, '../../client/dist');
+
+  app.use(express.static(clientDist));
+
+  // Catch-all: return index.html for React Router client-side routes
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(clientDist, 'index.html'));
   });
-});
+} else {
+  // ─── 404 Handler (development) ─────────────────────────────────
+  app.use((_req, res) => {
+    res.status(404).json({
+      success: false,
+      message: 'Route not found',
+    });
+  });
+}
 
 // ─── Global Error Handler ────────────────────────────────────────
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

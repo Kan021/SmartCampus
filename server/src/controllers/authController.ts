@@ -27,7 +27,8 @@ export async function verifyOtp(req: Request, res: Response) {
 export async function login(req: Request, res: Response) {
   try {
     const userAgent = req.headers['user-agent'];
-    const ipAddress = req.ip || req.socket.remoteAddress;
+    const rawIp = req.ip || req.socket.remoteAddress || '';
+    const ipAddress = rawIp.replace(/^::ffff:/, ''); // strip IPv4-mapped IPv6 prefix
 
     const result = await authService.loginUser(req.body, userAgent, ipAddress);
 

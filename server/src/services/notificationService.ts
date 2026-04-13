@@ -43,7 +43,7 @@ export function notifyAllUsersAboutNotice(notice: {
     try {
       const users = await prisma.user.findMany({
         select: { email: true, fullName: true },
-        where: { email: { not: '' } },
+        where: { email: { not: '' }, fullName: { not: '' } },
       });
 
       console.log(`📢 [Notify] Sending notice emails to ${users.length} users...`);

@@ -1,0 +1,92 @@
+{
+  "name": "smartcampus",
+  "version": "1.0.0",
+  "description": "Smart Campus — BBDU Digital Portal",
+  "main": "electron/main.js",
+  "author": "BBDU",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --prefix-colors \"cyan,magenta,green\" --names \"SERVER,CLIENT,ELECTRON\" \"npm run dev --prefix server\" \"npm run dev --prefix client\" \"wait-on http://localhost:5173 http://localhost:5000/api/health && electron .\"",
+    "dev:electron": "electron .",
+    "build:client": "npm run build --prefix client",
+    "build:server": "npm run build --prefix server",
+    "build": "npm run build:client && npm run build:server",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^41.2.0",
+    "electron-builder": "^25.1.8",
+    "wait-on": "^8.0.5"
+  },
+  "build": {
+    "appId": "com.bbdu.smartcampus",
+    "productName": "Smart Campus",
+    "copyright": "Copyright © 2025 BBDU",
+    "directories": {
+      "output": "dist-electron",
+      "buildResources": "assets"
+    },
+    "files": [
+      "electron/**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin"
+    ],
+    "extraResources": [
+      {
+        "from": "server",
+        "to": "server",
+        "filter": [
+          "dist/**/*",
+          "node_modules/**/*",
+          "prisma/**/*",
+          ".env"
+        ]
+      },
+      {
+        "from": "client/dist",
+        "to": "client/dist",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "icon": "assets/icon.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "SmartCampus-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Smart Campus"
+    },
+    "mac": {
+      "icon": "assets/icon.png",
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.education"
+    },
+    "linux": {
+      "icon": "assets/icon.png",
+      "target": [
+        "AppImage"
+      ],
+      "category": "Education"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+# ─── Dependencies ──────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ─── Build outputs ─────────────────────────────────────────────────
+dist/
+build/
+out/
+client/dist/
+server/dist/
+
+# ─── Environment variables ─────────────────────────────────────────
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+server/.env
+client/.env
+client/.env.local
+client/.env.development
+
+# ─── Logs ──────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── OS files ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Editor ────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ─── Electron build ────────────────────────────────────────────────
+electron-dist/
+release/
+
+# ─── Misc ──────────────────────────────────────────────────────────
+*.ico
+assets/bbd_logo.ico
+make-ico.ps1
+png-to-ico.js
+launcher.bat

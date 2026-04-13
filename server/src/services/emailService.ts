@@ -138,7 +138,7 @@ export async function sendNoticeNotification(to: string, opts: {
       <div style="font-size:13px;color:#64748b;">Posted by <strong style="color:#C62828;">${opts.postedBy}</strong></div>
     </div>
 
-    <a href="${process.env.CLIENT_URL || 'http://localhost:5174'}/notices"
+    <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}/notices"
        style="display:inline-block;background:#C62828;color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;margin-bottom:8px;">
       View Notice →
     </a>
@@ -171,7 +171,7 @@ export async function sendClassNoteNotification(to: string, opts: {
       <div style="font-size:13px;color:#64748b;">Uploaded by <strong style="color:#1565C0;">${opts.uploaderName}</strong></div>
     </div>
 
-    <a href="${process.env.CLIENT_URL || 'http://localhost:5174'}/classroom"
+    <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}/classroom"
        style="display:inline-block;background:#1565C0;color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;margin-bottom:8px;">
       Open Classroom →
     </a>
@@ -206,7 +206,7 @@ export async function sendClassMessageNotification(to: string, opts: {
       <div style="font-size:13px;color:#64748b;">— <strong style="color:#2e7d32;">${opts.senderName}</strong></div>
     </div>
 
-    <a href="${process.env.CLIENT_URL || 'http://localhost:5174'}/classroom"
+    <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}/classroom"
        style="display:inline-block;background:#2e7d32;color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;margin-bottom:8px;">
       Go to Classroom →
     </a>

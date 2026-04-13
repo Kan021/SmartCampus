@@ -4,13 +4,9 @@
 "description": "Smart Campus System — Backend API",
 "main": "dist/index.js",
 "scripts": {
-"dev": "tsx watch src/index.ts",
-"build": "prisma generate && tsc",
+"build": "tsc",
 "start": "node dist/index.js",
-"db:generate": "prisma generate",
-"db:push": "prisma db push",
-"db:migrate": "prisma migrate dev",
-"db:studio": "prisma studio"
+"postinstall": "prisma generate"
 },
 "dependencies": {
 "@prisma/client": "^7.7.0",
@@ -28,8 +24,6 @@
 "devDependencies": {
 "prisma": "^7.7.0",
 "typescript": "^5.7.0",
-"tsx": "^4.21.0",
-"ts-node": "^10.9.2",
 "@types/node": "^22.13.0",
 "@types/express": "^5.0.0",
 "@types/cors": "^2.8.17",

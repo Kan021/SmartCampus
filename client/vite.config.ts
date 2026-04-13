@@ -1,18 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
+// SmartCampus — Frontend-only build (no backend required)
 export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    proxy: {
-      // Proxy all /api calls to the local Express backend — no CORS issues
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-    },
+    // No proxy needed — all data is handled by mockApi.ts (localStorage)
   },
   build: {
     outDir: 'dist',
@@ -20,7 +14,6 @@ export default defineConfig({
     chunkSizeWarningLimit: 2000,
     rollupOptions: {
       output: {
-        // Split vendor chunks for better caching
         manualChunks: {
           'react-vendor':   ['react', 'react-dom', 'react-router-dom'],
           'leaflet-vendor': ['leaflet', 'react-leaflet'],

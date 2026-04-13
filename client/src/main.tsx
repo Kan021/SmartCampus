@@ -2,18 +2,24 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { initDb } from './services/mockDb.ts'
-import { detectMode } from './services/mode.ts'
 
-// 1. Detect whether the backend is reachable (sets isOffline() flag)
-// 2. Seed mock DB on first ever load
-detectMode().finally(() => {
+/**
+ * SmartCampus — Frontend-only mode.
+ * No backend required. All data is stored in localStorage.
+ * Ensure the mock DB is seeded BEFORE mounting React so no
+ * component ever encounters a "DB not ready" error.
+ */
+async function bootstrap() {
+  // Always seed/initialise the local DB first
   if (!localStorage.getItem('sc_mock_db_v2')) {
-    initDb();
+    await initDb();
   }
-});
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+}
+
+bootstrap();

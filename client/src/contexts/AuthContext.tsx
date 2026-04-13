@@ -9,6 +9,7 @@ interface User {
   isVerified: boolean;
   lastLoginAt?: string;
   createdAt?: string;
+  profile?: any;
 }
 
 interface AuthContextType {
@@ -33,12 +34,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      const response = await authApi.me();
-      if (response.success && response.data) {
-        setUser(response.data);
-      } else {
-        localStorage.removeItem('accessToken');
-        setUser(null);
+      // Small retry loop in case the mock DB is initialising async
+      let attempts = 0;
+      while (attempts < 3) {
+        try {
+          const response = await authApi.me();
+          if (response.success && response.data) {
+            setUser(response.data);
+          } else {
+            localStorage.removeItem('accessToken');
+            setUser(null);
+          }
+          break; // success — exit loop
+        } catch (err: any) {
+          if (err?.message === 'DB not ready' && attempts < 2) {
+            // Wait 150ms and retry — DB may still be seeding
+            await new Promise(r => setTimeout(r, 150));
+            attempts++;
+          } else {
+            // Token invalid or any other error — clear it cleanly
+            localStorage.removeItem('accessToken');
+            setUser(null);
+            break;
+          }
+        }
       }
     } catch {
       localStorage.removeItem('accessToken');
@@ -64,6 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Continue regardless
     } finally {
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       setUser(null);
     }
   };

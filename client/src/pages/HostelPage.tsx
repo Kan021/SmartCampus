@@ -3,40 +3,29 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
 import bbdLogo from '../assets/bbd-logo.png';
+import { mockHostel } from '../services/mockApi';
 
-const API = 'https://smartcampus-backend-production.up.railway.app/api';
-async function req(endpoint: string, method = 'GET', body?: any) {
-  const token = localStorage.getItem('accessToken');
-  const res = await fetch(`${API}${endpoint}`, {
-    method,
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-    ...(body ? { body: JSON.stringify(body) } : {}),
-  });
-  return res.json();
-}
-
-// ─── API helpers ────────────────────────────────────────────────
+// ─── API helpers (all routed through mockHostel / localStorage) ──
 const hostelApi = {
-  getMyRoom:        () => req('/hostel/my-room'),
-  getBlocks:        () => req('/hostel/blocks'),
-  getRooms:         (p?: string) => req(`/hostel/rooms${p ? `?${p}` : ''}`),
-  getAllAllocations: (s?: string) => req(`/hostel/all-allocations${s ? `?status=${s}` : ''}`),
-  allocate:         (b: any) => req('/hostel/allocate', 'POST', b),
-  vacate:           (id: string) => req(`/hostel/allocate/${id}/vacate`, 'PATCH', {}),
-  getGatePasses:    (s?: string) => req(`/hostel/gate-passes${s ? `?status=${s}` : ''}`),
-  applyGatePass:    (b: any) => req('/hostel/gate-passes', 'POST', b),
-  updateGatePass:   (id: string, b: any) => req(`/hostel/gate-passes/${id}`, 'PATCH', b),
-  getMessMenu:      () => req('/hostel/mess-menu'),
-  updateMessMenu:   (b: any) => req('/hostel/mess-menu', 'PUT', b),
-  getComplaints:    (s?: string, t?: string) => req(`/hostel/complaints${s||t ? `?status=${s||''}&type=${t||''}` : ''}`),
-  fileComplaint:    (b: any) => req('/hostel/complaints', 'POST', b),
-  updateComplaint:  (id: string, b: any) => req(`/hostel/complaints/${id}`, 'PATCH', b),
-  getFees:          () => req('/hostel/fees'),
-  createFee:        (b: any) => req('/hostel/fees', 'POST', b),
-  markFeePaid:      (id: string, ref: string) => req(`/hostel/fees/${id}/pay`, 'PATCH', { paymentRef: ref }),
-  getStats:         () => req('/hostel/stats'),
-  searchStudents:   (q: string) => req(`/hostel/students?q=${encodeURIComponent(q)}`),
+  getMyRoom:        () => mockHostel.getMyRoom(),
+  getBlocks:        () => mockHostel.getBlocks(),
+  getRooms:         (_p?: string) => mockHostel.getRooms({}),
+  getAllAllocations: (_s?: string) => mockHostel.getAllAllocations(),
+  allocate:         (b: any) => mockHostel.allocateRoom(b),
+  vacate:           (id: string) => mockHostel.vacateRoom(id),
+  getGatePasses:    (s?: string) => mockHostel.getGatePasses(s ? { status: s } : {}),
+  applyGatePass:    (b: any) => mockHostel.applyGatePass(b),
+  updateGatePass:   (id: string, b: any) => mockHostel.updateGatePass(id, b),
+  getMessMenu:      () => mockHostel.getMessMenu(),
+  updateMessMenu:   (b: any) => mockHostel.updateMessMenu(b),
+  getComplaints:    (s?: string, _t?: string) => mockHostel.getComplaints(s ? { status: s } : {}),
+  fileComplaint:    (b: any) => mockHostel.fileComplaint(b),
+  updateComplaint:  (id: string, b: any) => mockHostel.updateComplaint(id, b),
+  getFees:          (s?: string) => mockHostel.getFees(s ? { status: s } : {}),
+  createFee:        (b: any) => mockHostel.createFee(b),
+  markFeePaid:      (id: string, ref: string) => mockHostel.markFeePaid(id, { paymentRef: ref }),
+  getStats:         () => mockHostel.getStats(),
+  searchStudents:   (q: string) => mockHostel.searchStudents(q),
 };
 
 // ─── Constants ──────────────────────────────────────────────────

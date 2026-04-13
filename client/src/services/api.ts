@@ -304,8 +304,10 @@ export const chatApi = {
 
 // ─── Fee Receipts ────────────────────────────────────────────────
 export const feeReceiptApi = {
-  upload: (body: object) => request('/academics/fees/receipt', { method: 'POST', body: JSON.stringify(body) }),
-  review: (paymentId: string, action: string) => request(`/academics/fees/receipt/${paymentId}/review`, { method: 'PUT', body: JSON.stringify({ action }) }),
-  getPending: () => request('/academics/fees/receipts/pending'),
+  upload: (body: object) => isOffline() ? mockAcademics.markFeePayment(body) : request('/academics/fees/receipt', { method: 'POST', body: JSON.stringify(body) }),
+  review: (_paymentId: string, _action: string) => isOffline() ? Promise.resolve({ success: true, message: 'Reviewed (local)', data: {} }) : request(`/academics/fees/receipt/${_paymentId}/review`, { method: 'PUT', body: JSON.stringify({ action: _action }) }),
+  getPending: () => isOffline() ? Promise.resolve({ success: true, message: 'OK', data: [] }) : request('/academics/fees/receipts/pending'),
 };
 
+// ─── Hostel API (always uses mockHostel — no backend) ────────────
+export { mockHostel as hostelApi } from './mockApi';

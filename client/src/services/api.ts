@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://smartcampus-backend-production.up.railway.app/api';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface ApiResponse<T = any> {

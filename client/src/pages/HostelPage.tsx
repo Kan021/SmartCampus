@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
 import bbdLogo from '../assets/bbd-logo.png';
 
-const API = 'http://localhost:5000/api';
+const API = 'https://smartcampus-backend-production.up.railway.app/api';
 async function req(endpoint: string, method = 'GET', body?: any) {
   const token = localStorage.getItem('accessToken');
   const res = await fetch(`${API}${endpoint}`, {
